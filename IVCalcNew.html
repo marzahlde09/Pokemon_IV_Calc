@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>Powerful IV Calculator</title>
+	</head>
+	<body>
+		<table cols = "7" width = "70%" align = "center">
+			<!--Contains species, level, nature, and a picture of the selected Pokemon-->
+			<tr>
+				<th colspan = "2">
+					<font size = "+2">Species</font>&nbsp;&nbsp;
+					<select onchange = "NewPokemonSelected()" id = "species">
+						<option value = "Bulbasaur">Bulbasaur</option>
+						<option value = "Ivysaur">Ivysaur</option>
+						<option value = "Venasaur">Venasaur</option>
+					</select>
+				</th>
+				<th colspan = "2">
+					<font size = "+2">Level:</font>&nbsp;&nbsp;<input type = "text" placeholder = "1 - 100" value = "100" id = "level" size = "3">
+				</th>
+				<th colspan = "2">
+					<font size = "+2">Nature:</font>&nbsp;&nbsp;
+					<select id = "nature" onchange = "NewNatureSelected()">
+						<option value = "Hardy" checked = "true">Hardy (neutral)</option>
+						<option value = "Docile">Docile (neutral)</option>
+						<option value = "Serious">Serious (neutral)</option>
+						<option value = "Bashful">Bashful (neutral)</option>
+						<option value = "Quirky">Quirky (neutral)</option>
+						<option value = "Lonely">Lonely (+atk, -def)</option>
+						<option value = "Brave">Brave (+atk, -speed)</option>
+						<option value = "Adamant">Adamant (+atk, -sp. atk)</option>
+						<option value = "Naughty">Naughty (+atk, -sp. def)</option>
+						<option value = "Bold">Bold (+def, -atk)</option>
+						<option value = "Relaxed">Relaxed (+def, -speed)</option>
+						<option value = "Impish">Impish (+def, -sp. atk)</option>
+						<option value = "Lax">Lax (+def, -sp. def)</option>
+						<option value = "Timid">Timid (+speed, -atk)</option>
+						<option value = "Hasty">Hasty (+speed, -def)</option>
+						<option value = "Jolly">Jolly (+speed, -sp. atk)</option>
+						<option value = "Naive">Naive (+speed, -sp. def)</option>
+						<option value = "Modest">Modest (+sp. atk, -atk)</option>
+						<option value = "Mild">Mild (+sp. atk, -def)</option>
+						<option value = "Quiet">Quiet (+sp. atk, -speed)</option>
+						<option value = "Rash">Rash (+sp. atk, -sp. def)</option>
+						<option value = "Calm">Calm (+sp. def, -atk)</option>
+						<option value = "Gentle">Gentle (+sp. def, -def)</option>
+						<option value = "Sassy">Sassy (+sp. def, -speed)</option>
+						<option value = "Careful">Careful (+sp. def, -sp. atk)</option>
+					</select>
+				</th>
+				<th>
+					<img src = ""/>
+				</th>
+			</tr>
+			
+			
+			<!--List of stat categories-->
+			<tr>
+				<td></td>
+				<th>HP</th>
+				<th>Attack</th>
+				<th>Defense</th>
+				<th>Sp. Attack</th>
+				<th>Sp. Defense</th>
+				<th>Speed</th>
+			</tr>
+			
+			<!--Contains hindering nature min-max values for each stat-->
+			<tr>
+				<th id = "hinderSentence">Bulbasaur's possible stats for a hindering nature at level 100:</th>
+				<td align = "center" id = "hpHinder">200 - 294</td>
+				<td align = "center" id = "attHinder">92 - 177</td>
+				<td align = "center" id = "defHinder">92 - 177</td>
+				<td align = "center" id = "spaHinder">121 - 206</td>
+				<td align = "center" id = "spdHinder">121 - 206</td>
+				<td align = "center" id = "speHinder">85 - 170</td>
+			</tr>
+			
+			<!--Contains neutral nature min-max values for each stat-->
+			<tr>
+				<th id = "neutralSentence">Bulbasaur's possible stats for a neutral nature at level 100:</th>
+				<td align = "center" id = "hpNeutral" bgcolor = "gainsboro">200 - 294</td>
+				<td align = "center" id = "attNeutral" bgcolor = "gainsboro">103 - 197</td>
+				<td align = "center" id = "defNeutral" bgcolor = "gainsboro">103 - 197</td>
+				<td align = "center" id = "spaNeutral" bgcolor = "gainsboro">135 - 229</td>
+				<td align = "center" id = "spdNeutral" bgcolor = "gainsboro">135 - 229</td>
+				<td align = "center" id = "speNeutral" bgcolor = "gainsboro">95 - 189</td>
+			</tr>
+			
+			<!--Contains beneficial nature min-max values for each stat-->
+			<tr>
+				<th id = "benSentence">Bulbasaur's possible stats for a beneficial nature at level 100:</th>
+				<td align = "center" id = "hpBen">200 - 294</td>
+				<td align = "center" id = "attBen">113 - 216</td>
+				<td align = "center" id = "defBen">113 - 216</td>
+				<td align = "center" id = "spaBen">148 - 251</td>
+				<td align = "center" id = "spdBen">148 - 251</td>
+				<td align = "center" id = "speBen">104 - 207</td>
+			</tr>
+			
+			<!--Areas to include current Effort Value investment-->
+			<tr>
+				<th>Current effort value investment:</th>
+				<td align = "center"><input type = "text" placeholder = "0 - 255" value = "0" size = "3"></td>
+				<td align = "center"><input type = "text" placeholder = "0 - 255" value = "0" size = "3"></td>
+				<td align = "center"><input type = "text" placeholder = "0 - 255" value = "0" size = "3"></td>
+				<td align = "center"><input type = "text" placeholder = "0 - 255" value = "0" size = "3"></td>
+				<td align = "center"><input type = "text" placeholder = "0 - 255" value = "0" size = "3"></td>
+				<td align = "center"><input type = "text" placeholder = "0 - 255" value = "0" size = "3"></td>
+			</tr>
+			
+			<!--Areas to include current stat values-->
+			<tr>
+				<th>Current stat values:</th>
+				<td align = "center"><input type = "text" placeholder = "HP" size = "3"></td>
+				<td align = "center"><input type = "text" placeholder = "Attack" size = "3"></td>
+				<td align = "center"><input type = "text" placeholder = "Defense" size = "3"></td>
+				<td align = "center"><input type = "text" placeholder = "Sp. Attack" size = "3"></td>
+				<td align = "center"><input type = "text" placeholder = "Sp. Defense" size = "3"></td>
+				<td align = "center"><input type = "text" placeholder = "Speed" size = "3"></td>
+			</tr>
+			
+			<!--Submit button-->
+			<tr>
+				<th colspan = "7"><input type = "button" value = "Calculate my IVs!"></th>
+			</tr>
+			
+			<!--List of possible Individual Values-->
+			<tr>
+				<th>Your possible IVs:</th>
+				<th>0 - 31</th>
+				<th>0 - 31</th>
+				<th>0 - 31</th>
+				<th>0 - 31</th>
+				<th>0 - 31</th>
+				<th>0 - 31</th>
+			</tr>
+		</table>
+		
+		<script>
+			function Pokemon(name, hp, atk, def, spa, spd, spe)
+			{
+				this.name = name;
+				this.hp = hp;
+				this.atk = atk;
+				this.def = def;
+				this.spa = spa;
+				this.spd = spd;
+				this.spe = spe;
+			}
+			const pokemon = new Array(802);
+			pokemon[0] = new Pokemon("Bulbasaur", 45, 49, 49, 65, 65, 45);
+			pokemon[1] = new Pokemon("Ivysaur", 60, 62, 63, 80, 80, 60);
+			pokemon[2] = new Pokemon("Venasaur", 80, 82, 83, 100, 100, 80);
+			
+			function NewNatureSelected()
+			{	
+				var nature = document.getElementById('nature').value;
+				
+				switch(nature){
+					case "Hardy":
+						document.getElementById('attBen').setAttribute("bgcolor", "white");
+						document.getElementById('defBen').setAttribute("bgcolor", "white");
+						document.getElementById('spaBen').setAttribute("bgcolor", "white");
+						document.getElementById('spdBen').setAttribute("bgcolor", "white");
+						document.getElementById('speBen').setAttribute("bgcolor", "white");
+						
+						document.getElementById('attNeutral').setAttribute("bgcolor", "gainsboro");
+						document.getElementById('defNeutral').setAttribute("bgcolor", "gainsboro");
+						document.getElementById('spaNeutral').setAttribute("bgcolor", "gainsboro");
+						document.getElementById('spdNeutral').setAttribute("bgcolor", "gainsboro");
+						document.getElementById('speNeutral').setAttribute("bgcolor", "gainsboro");
+						
+						document.getElementById('attHinder').setAttribute("bgcolor", "white");
+						document.getElementById('defHinder').setAttribute("bgcolor", "white");
+						document.getElementById('spaHinder').setAttribute("bgcolor", "white");
+						document.getElementById('spdHinder').setAttribute("bgcolor", "white");
+						document.getElementById('speHinder').setAttribute("bgcolor", "white");
+						break;
+						
+					case "Docile":
+						document.getElementById('attBen').setAttribute("bgcolor", "white");
+						document.getElementById('defBen').setAttribute("bgcolor", "white");
+						document.getElementById('spaBen').setAttribute("bgcolor", "white");
+						document.getElementById('spdBen').setAttribute("bgcolor", "white");
+						document.getElementById('speBen').setAttribute("bgcolor", "white");
+						
+						document.getElementById('attNeutral').setAttribute("bgcolor", "gainsboro");
+						document.getElementById('defNeutral').setAttribute("bgcolor", "gainsboro");
+						document.getElementById('spaNeutral').setAttribute("bgcolor", "gainsboro");
+						document.getElementById('spdNeutral').setAttribute("bgcolor", "gainsboro");
+						document.getElementById('speNeutral').setAttribute("bgcolor", "gainsboro");
+						
+						document.getElementById('attHinder').setAttribute("bgcolor", "white");
+						document.getElementById('defHinder').setAttribute("bgcolor", "white");
+						document.getElementById('spaHinder').setAttribute("bgcolor", "white");
+						document.getElementById('spdHinder').setAttribute("bgcolor", "white");
+						document.getElementById('speHinder').setAttribute("bgcolor", "white");
+						break;
+					
+					case "Serious":
+						document.getElementById('attBen').setAttribute("bgcolor", "white");
+						document.getElementById('defBen').setAttribute("bgcolor", "white");
+						document.getElementById('spaBen').setAttribute("bgcolor", "white");
+						document.getElementById('spdBen').setAttribute("bgcolor", "white");
+						document.getElementById('speBen').setAttribute("bgcolor", "white");
+						
+						document.getElementById('attNeutral').setAttribute("bgcolor", "gainsboro");
+						document.getElementById('defNeutral').setAttribute("bgcolor", "gainsboro");
+						document.getElementById('spaNeutral').setAttribute("bgcolor", "gainsboro");
+						document.getElementById('spdNeutral').setAttribute("bgcolor", "gainsboro");
+						document.getElementById('speNeutral').setAttribute("bgcolor", "gainsboro");
+						
+						document.getElementById('attHinder').setAttribute("bgcolor", "white");
+						document.getElementById('defHinder').setAttribute("bgcolor", "white");
+						document.getElementById('spaHinder').setAttribute("bgcolor", "white");
+						document.getElementById('spdHinder').setAttribute("bgcolor", "white");
+						document.getElementById('speHinder').setAttribute("bgcolor", "white");
+						break;
+						
+					case "Bashful":
+						document.getElementById('attBen').setAttribute("bgcolor", "white");
+						document.getElementById('defBen').setAttribute("bgcolor", "white");
+						document.getElementById('spaBen').setAttribute("bgcolor", "white");
+						document.getElementById('spdBen').setAttribute("bgcolor", "white");
+						document.getElementById('speBen').setAttribute("bgcolor", "white");
+						
+						document.getElementById('attNeutral').setAttribute("bgcolor", "gainsboro");
+						document.getElementById('defNeutral').setAttribute("bgcolor", "gainsboro");
+						document.getElementById('spaNeutral').setAttribute("bgcolor", "gainsboro");
+						document.getElementById('spdNeutral').setAttribute("bgcolor", "gainsboro");
+						document.getElementById('speNeutral').setAttribute("bgcolor", "gainsboro");
+						
+						document.getElementById('attHinder').setAttribute("bgcolor", "white");
+						document.getElementById('defHinder').setAttribute("bgcolor", "white");
+						document.getElementById('spaHinder').setAttribute("bgcolor", "white");
+						document.getElementById('spdHinder').setAttribute("bgcolor", "white");
+						document.getElementById('speHinder').setAttribute("bgcolor", "white");
+						break;
+						
+					case "Quirky":
+						document.getElementById('attBen').setAttribute("bgcolor", "white");
+						document.getElementById('defBen').setAttribute("bgcolor", "white");
+						document.getElementById('spaBen').setAttribute("bgcolor", "white");
+						document.getElementById('spdBen').setAttribute("bgcolor", "white");
+						document.getElementById('speBen').setAttribute("bgcolor", "white");
+						
+						document.getElementById('attNeutral').setAttribute("bgcolor", "gainsboro");
+						document.getElementById('defNeutral').setAttribute("bgcolor", "gainsboro");
+						document.getElementById('spaNeutral').setAttribute("bgcolor", "gainsboro");
+						document.getElementById('spdNeutral').setAttribute("bgcolor", "gainsboro");
+						document.getElementById('speNeutral').setAttribute("bgcolor", "gainsboro");
+						
+						document.getElementById('attHinder').setAttribute("bgcolor", "white");
+						document.getElementById('defHinder').setAttribute("bgcolor", "white");
+						document.getElementById('spaHinder').setAttribute("bgcolor", "white");
+						document.getElementById('spdHinder').setAttribute("bgcolor", "white");
+						document.getElementById('speHinder').setAttribute("bgcolor", "white");
+						break;
+						
+					case "Docile":
+						document.getElementById('attBen').setAttribute("bgcolor", "white");
+						document.getElementById('defBen').setAttribute("bgcolor", "white");
+						document.getElementById('spaBen').setAttribute("bgcolor", "white");
+						document.getElementById('spdBen').setAttribute("bgcolor", "white");
+						document.getElementById('speBen').setAttribute("bgcolor", "white");
+						
+						document.getElementById('attNeutral').setAttribute("bgcolor", "gainsboro");
+						document.getElementById('defNeutral').setAttribute("bgcolor", "gainsboro");
+						document.getElementById('spaNeutral').setAttribute("bgcolor", "gainsboro");
+						document.getElementById('spdNeutral').setAttribute("bgcolor", "gainsboro");
+						document.getElementById('speNeutral').setAttribute("bgcolor", "gainsboro");
+						
+						document.getElementById('attHinder').setAttribute("bgcolor", "white");
+						document.getElementById('defHinder').setAttribute("bgcolor", "white");
+						document.getElementById('spaHinder').setAttribute("bgcolor", "white");
+						document.getElementById('spdHinder').setAttribute("bgcolor", "white");
+						document.getElementById('speHinder').setAttribute("bgcolor", "white");
+						break;
+						
+					case "Lonely":
+						document.getElementById('attBen').setAttribute("bgcolor", "gainsboro");
+						document.getElementById('defBen').setAttribute("bgcolor", "white");
+						document.getElementById('spaBen').setAttribute("bgcolor", "white");
+						document.getElementById('spdBen').setAttribute("bgcolor", "white");
+						document.getElementById('speBen').setAttribute("bgcolor", "white");
+						
+						document.getElementById('attNeutral').setAttribute("bgcolor", "white");
+						document.getElementById('defNeutral').setAttribute("bgcolor", "white");
+						document.getElementById('spaNeutral').setAttribute("bgcolor", "gainsboro");
+						document.getElementById('spdNeutral').setAttribute("bgcolor", "gainsboro");
+						document.getElementById('speNeutral').setAttribute("bgcolor", "gainsboro");
+						
+						document.getElementById('attHinder').setAttribute("bgcolor", "white");
+						document.getElementById('defHinder').setAttribute("bgcolor", "gainsboro");
+						document.getElementById('spaHinder').setAttribute("bgcolor", "white");
+						document.getElementById('spdHinder').setAttribute("bgcolor", "white");
+						document.getElementById('speHinder').setAttribute("bgcolor", "white");
+						break;
+						
+					case "Brave":
+						document.getElementById('attBen').setAttribute("bgcolor", "gainsboro");
+						document.getElementById('defBen').setAttribute("bgcolor", "white");
+						document.getElementById('spaBen').setAttribute("bgcolor", "white");
+						document.getElementById('spdBen').setAttribute("bgcolor", "white");
+						document.getElementById('speBen').setAttribute("bgcolor", "white");
+						
+						document.getElementById('attNeutral').setAttribute("bgcolor", "white");
+						document.getElementById('defNeutral').setAttribute("bgcolor", "gainsboro");
+						document.getElementById('spaNeutral').setAttribute("bgcolor", "gainsboro");
+						document.getElementById('spdNeutral').setAttribute("bgcolor", "gainsboro");
+						document.getElementById('speNeutral').setAttribute("bgcolor", "white");
+						
+						document.getElementById('attHinder').setAttribute("bgcolor", "white");
+						document.getElementById('defHinder').setAttribute("bgcolor", "white");
+						document.getElementById('spaHinder').setAttribute("bgcolor", "white");
+						document.getElementById('spdHinder').setAttribute("bgcolor", "white");
+						document.getElementById('speHinder').setAttribute("bgcolor", "gainsboro");
+						break;
+						
+					case "Adamant":
+						document.getElementById('attBen').setAttribute("bgcolor", "gainsboro");
+						document.getElementById('defBen').setAttribute("bgcolor", "white");
+						document.getElementById('spaBen').setAttribute("bgcolor", "white");
+						document.getElementById('spdBen').setAttribute("bgcolor", "white");
+						document.getElementById('speBen').setAttribute("bgcolor", "white");
+						
+						document.getElementById('attNeutral').setAttribute("bgcolor", "white");
+						document.getElementById('defNeutral').setAttribute("bgcolor", "gainsboro");
+						document.getElementById('spaNeutral').setAttribute("bgcolor", "white");
+						document.getElementById('spdNeutral').setAttribute("bgcolor", "gainsboro");
+						document.getElementById('speNeutral').setAttribute("bgcolor", "gainsboro");
+						
+						document.getElementById('attHinder').setAttribute("bgcolor", "white");
+						document.getElementById('defHinder').setAttribute("bgcolor", "white");
+						document.getElementById('spaHinder').setAttribute("bgcolor", "gainsboro");
+						document.getElementById('spdHinder').setAttribute("bgcolor", "white");
+						document.getElementById('speHinder').setAttribute("bgcolor", "white");
+						break;
+						
+					case "Naughty":
+						document.getElementById('attBen').setAttribute("bgcolor", "gainsboro");
+						document.getElementById('defBen').setAttribute("bgcolor", "white");
+						document.getElementById('spaBen').setAttribute("bgcolor", "white");
+						document.getElementById('spdBen').setAttribute("bgcolor", "white");
+						document.getElementById('speBen').setAttribute("bgcolor", "white");
+						
+						document.getElementById('attNeutral').setAttribute("bgcolor", "white");
+						document.getElementById('defNeutral').setAttribute("bgcolor", "gainsboro");
+						document.getElementById('spaNeutral').setAttribute("bgcolor", "gainsboro");
+						document.getElementById('spdNeutral').setAttribute("bgcolor", "white");
+						document.getElementById('speNeutral').setAttribute("bgcolor", "gainsboro");
+						
+						document.getElementById('attHinder').setAttribute("bgcolor", "white");
+						document.getElementById('defHinder').setAttribute("bgcolor", "white");
+						document.getElementById('spaHinder').setAttribute("bgcolor", "white");
+						document.getElementById('spdHinder').setAttribute("bgcolor", "gainsboro");
+						document.getElementById('speHinder').setAttribute("bgcolor", "white");
+						break;
+						
+					default:
+				}
+			}
+			
+			function NewPokemonSelected()
+			{
+				var hp;
+				var attack;
+				var defense;
+				var specialAttack;
+				var specialDefense;
+				var speed;
+				
+				var minhp;
+				var minattack;
+				var mindefense;
+				var minspecialAttack;
+				var minspecialDefense;
+				var minspeed;
+				
+				var maxhp;
+				var maxattack;
+				var maxdefense;
+				var maxspecialAttack;
+				var maxspecialDefense;
+				var maxspeed;
+				
+				var level = Number(document.getElementById('level').value);
+				
+				var name = document.getElementById('species').value;
+				
+				//Changes names in row headings to the new Pokemon
+				document.getElementById('hinderSentence').innerHTML = name + "'s possible stats for a hindering nature at level 100:";
+				document.getElementById('neutralSentence').innerHTML = name + "'s possible stats for a neutral nature at level 100:";
+				document.getElementById('benSentence').innerHTML = name + "'s possible stats for a beneficial nature at level 100:";
+				
+				//Sets base stats for the newly selected Pokemon
+				for(var i = 0; i < pokemon.length; i++)
+				{
+					if(pokemon[i].name == name)
+					{
+						var hp = pokemon[i].hp;
+						var attack = pokemon[i].atk;
+						var defense = pokemon[i].def;
+						var specialAttack = pokemon[i].spa;
+						var specialDefense = pokemon[i].spd;
+						var speed = pokemon[i].spe;
+						i = pokemon.length;
+					}
+				}
+				
+				//Stat = floor(floor((2 * B + I + E) * L / 100 + 5) * N)
+				//Stat = floor((2 * B + I + E) * L / 100 + L + 10)
+				minhp = Math.trunc((2 * hp) * level / 100 + level + 10);
+				minattack = Math.trunc(Math.trunc((2 * attack) * level / 100 + 5) * .9);
+				mindefense = Math.trunc(Math.trunc((2 * defense) * level / 100 + 5) * .9);
+				minspecialAttack = Math.trunc(Math.trunc((2 * specialAttack) * level / 100 + 5) * .9);
+				minspecialDefense = Math.trunc(Math.trunc((2 * specialDefense) * level / 100 + 5) * .9);
+				minspeed = Math.trunc(Math.trunc((2 * speed) * level / 100 + 5) * .9);
+				
+				maxhp = Math.trunc((2 * hp + 63 + 31) * level / 100 + level + 10);
+				maxattack = Math.trunc(Math.trunc((2 * attack + 63 + 31) * level / 100 + 5) * .9);
+				maxdefense = Math.trunc(Math.trunc((2 * defense + 63 + 31) * level / 100 + 5) * .9);
+				maxspecialAttack = Math.trunc(Math.trunc((2 * specialAttack + 63 + 31) * level / 100 + 5) * .9);
+				maxspecialDefense = Math.trunc(Math.trunc((2 * specialDefense + 63 + 31) * level / 100 + 5) * .9);
+				maxspeed = Math.trunc(Math.trunc((2 * speed + 63 + 31) * level / 100 + 5) * .9);
+				
+				document.getElementById('hpHinder').innerHTML = minhp + " - " + maxhp;
+				document.getElementById('attHinder').innerHTML = minattack + " - " + maxattack;
+				document.getElementById('defHinder').innerHTML = mindefense + " - " + maxdefense;
+				document.getElementById('spaHinder').innerHTML = minspecialAttack + " - " + maxspecialAttack;
+				document.getElementById('spdHinder').innerHTML = minspecialDefense + " - " + maxspecialDefense;
+				document.getElementById('speHinder').innerHTML = minspeed + " - " + maxspeed;
+				
+				minattack = Math.trunc((2 * attack) * level / 100 + 5);
+				mindefense = Math.trunc((2 * defense) * level / 100 + 5);
+				minspecialAttack = Math.trunc((2 * specialAttack) * level / 100 + 5);
+				minspecialDefense = Math.trunc((2 * specialDefense) * level / 100 + 5);
+				minspeed = Math.trunc((2 * speed) * level / 100 + 5);
+				
+				maxattack = Math.trunc((2 * attack + 63 + 31) * level / 100 + 5);
+				maxdefense = Math.trunc((2 * defense + 63 + 31) * level / 100 + 5);
+				maxspecialAttack = Math.trunc((2 * specialAttack + 63 + 31) * level / 100 + 5);
+				maxspecialDefense = Math.trunc((2 * specialDefense + 63 + 31) * level / 100 + 5);
+				maxspeed = Math.trunc((2 * speed + 63 + 31) * level / 100 + 5);
+				
+				document.getElementById('hpNeutral').innerHTML = minhp + " - " + maxhp;
+				document.getElementById('attNeutral').innerHTML = minattack + " - " + maxattack;
+				document.getElementById('defNeutral').innerHTML = mindefense + " - " + maxdefense;
+				document.getElementById('spaNeutral').innerHTML = minspecialAttack + " - " + maxspecialAttack;
+				document.getElementById('spdNeutral').innerHTML = minspecialDefense + " - " + maxspecialDefense;
+				document.getElementById('speNeutral').innerHTML = minspeed + " - " + maxspeed;
+				
+				minattack = Math.trunc(Math.trunc((2 * attack) * level / 100 + 5) * 1.1);
+				mindefense = Math.trunc(Math.trunc((2 * defense) * level / 100 + 5) * 1.1);
+				minspecialAttack = Math.trunc(Math.trunc((2 * specialAttack) * level / 100 + 5) * 1.1);
+				minspecialDefense = Math.trunc(Math.trunc((2 * specialDefense) * level / 100 + 5) * 1.1);
+				minspeed = Math.trunc(Math.trunc((2 * speed) * level / 100 + 5) * 1.1);
+				
+				maxattack = Math.trunc(Math.trunc((2 * attack + 63 + 31) * level / 100 + 5) * 1.1);
+				maxdefense = Math.trunc(Math.trunc((2 * defense + 63 + 31) * level / 100 + 5) * 1.1);
+				maxspecialAttack = Math.trunc(Math.trunc((2 * specialAttack + 63 + 31) * level / 100 + 5) * 1.1);
+				maxspecialDefense = Math.trunc(Math.trunc((2 * specialDefense + 63 + 31) * level / 100 + 5) * 1.1);
+				maxspeed = Math.trunc(Math.trunc((2 * speed + 63 + 31) * level / 100 + 5) * 1.1);
+				
+				document.getElementById('hpBen').innerHTML = minhp + " - " + maxhp;
+				document.getElementById('attBen').innerHTML = minattack + " - " + maxattack;
+				document.getElementById('defBen').innerHTML = mindefense + " - " + maxdefense;
+				document.getElementById('spaBen').innerHTML = minspecialAttack + " - " + maxspecialAttack;
+				document.getElementById('spdBen').innerHTML = minspecialDefense + " - " + maxspecialDefense;
+				document.getElementById('speBen').innerHTML = minspeed + " - " + maxspeed;
+			}
+		</script>
+	</body>
+</html>
